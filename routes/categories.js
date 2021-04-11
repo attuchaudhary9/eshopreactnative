@@ -1,29 +1,12 @@
-const {Category} = require('../models/category');
 const express = require('express');
+const { deleteCategory, getCategory, getAllCategory, createCategory,updateCategory } = require('../controllers/categories');
 const router = express.Router();
 
-router.get(`/`, async (req, res) =>{
-    const categoryList = await Category.find();
-
-    if(!categoryList) {
-        res.status(500).json({success: false})
-    } 
-    res.send(categoryList);
-})
-
-router.post("/",async (req,res)=>{
-    let category = new Category({
-       name : req.body.name,
-       icon:  req.body.icon,
-       color :  req.body.color
-    })
-    category = await category.save();
-    if(!category){
-        return res.status(404).json({
-            error:"The category cannot be created"
-        })
-    }
-    res.send(category)
-})
+//routers
+router.get(`/`, getAllCategory)
+router.get(`/:id`,getCategory)
+router.post("/",createCategory)
+router.delete("/:id",deleteCategory)
+router.put("/:id",updateCategory)
 
 module.exports =router;

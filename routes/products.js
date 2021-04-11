@@ -1,31 +1,16 @@
 const {Product} = require('../models/product');
 const express = require('express');
+const { createProduct, getProduct, getAllProducts,updateProduct, deleteProduct, productsCount, featuredProducts } = require('../controllers/products');
 const router = express.Router();
 
-router.get(`/`, async (req, res) =>{
-    const productList = await Product.find();
+router.get("/:id",getProduct);
+router.get(`/`, getAllProducts)
+router.post(`/`, createProduct)
+router.put(`/:id`, updateProduct)
+router.delete(`/:id`, deleteProduct)
+router.get(`/get/count`,productsCount)
+router.get(`/get/featured/:id`,featuredProducts)
 
-    if(!productList) {
-        res.status(500).json({success: false})
-    } 
-    res.send(productList);
-})
 
-router.post(`/`, (req, res) =>{
-    const product = new Product({
-        name: req.body.name,
-        image: req.body.image,
-        countInStock: req.body.countInStock
-    })
-
-    product.save().then((createdProduct=> {
-        res.status(201).json(createdProduct)
-    })).catch((err)=>{
-        res.status(500).json({
-            error: err,
-            success: false
-        })
-    })
-})
 
 module.exports =router;
