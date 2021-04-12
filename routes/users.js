@@ -1,14 +1,15 @@
-const {User} = require('../models/user');
 const express = require('express');
+const { getAllUser, createUser,getUser,loginUser,getCount, deletUser,registerUser,updatePassword } = require('../controllers/users');
 const router = express.Router();
 
-router.get(`/`, async (req, res) =>{
-    const userList = await User.find();
+router.get(`/`, getAllUser)
+router.get(`/:id`, getUser)
+router.post(`/`, createUser)
+router.post(`/register`, registerUser)
+router.post(`/login`, loginUser)
+router.post(`/get/count`, getCount)
+router.delete(`/:id`, deletUser)
 
-    if(!userList) {
-        res.status(500).json({success: false})
-    } 
-    res.send(userList);
-})
+router.put('/:id',updatePassword)
 
 module.exports =router;
