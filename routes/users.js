@@ -9,7 +9,6 @@ router.post(`/register`, registerUser)
 router.post(`/login`, loginUser)
 router.post(`/get/count`, getCount)
 router.delete(`/:id`, deletUser)
-
 router.put('/:id',updatePassword)
 
 module.exports =router;
